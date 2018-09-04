@@ -1,10 +1,9 @@
+using CodingChallenge.Api.Controllers;
 using CodingChallenge.Api.Models;
-using CodingChallenge.Api.Services;
 using CodingChallenge.Api.Tests.Infrastructure;
 using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,7 +18,7 @@ namespace CodingChallenge.Api.Tests
 
             using (var factory = new ServerFactory(dataSeed))
             {
-                var response = await factory.CreateClient().GetAsync<List<FloorProgress>>("api/progress");
+                var response = await factory.CreateClient().GetAsync<List<FloorProgressResponse>>("api/progress");
 
                 response.Count.Should().Be(0);
             }
@@ -39,7 +38,7 @@ namespace CodingChallenge.Api.Tests
 
             using (var factory = new ServerFactory(dataSeed))
             {
-                var response = await factory.CreateClient().GetAsync<List<FloorProgress>>("api/progress");
+                var response = await factory.CreateClient().GetAsync<List<FloorProgressResponse>>("api/progress");
 
                 response.Count.Should().Be(2);
                 response.Should().ContainSingle(f => f.Floor == 1);
@@ -62,7 +61,7 @@ namespace CodingChallenge.Api.Tests
 
             using (var factory = new ServerFactory(dataSeed))
             {
-                var response = await factory.CreateClient().GetAsync<List<FloorProgress>>("api/progress");
+                var response = await factory.CreateClient().GetAsync<List<FloorProgressResponse>>("api/progress");
 
                 response.Count.Should().Be(1);
                 response[0].StatusPercentage.Count.Should().Be(3);
@@ -85,7 +84,7 @@ namespace CodingChallenge.Api.Tests
 
             using (var factory = new ServerFactory(dataSeed))
             {
-                var response = await factory.CreateClient().GetAsync<List<FloorProgress>>("api/progress");
+                var response = await factory.CreateClient().GetAsync<List<FloorProgressResponse>>("api/progress");
 
                 response.Count.Should().Be(1);
                 response[0].StatusPercentage.Sum(s => s.Value).Should().Be(1.00);
@@ -127,7 +126,7 @@ namespace CodingChallenge.Api.Tests
 
             using (var factory = new ServerFactory(dataSeed))
             {
-                var response = await factory.CreateClient().GetAsync<List<FloorProgress>>("api/progress");
+                var response = await factory.CreateClient().GetAsync<List<FloorProgressResponse>>("api/progress");
 
                 response.Count.Should().Be(1);
                 var progress = response[0];

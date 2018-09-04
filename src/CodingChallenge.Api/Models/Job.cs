@@ -9,7 +9,6 @@ namespace CodingChallenge.Api.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int JobId { get; set; }
-        public string Status { get; set; }
         public int Floor { get; set; }
         public JobStatus StatusNum { get; set; }
     }

@@ -1,6 +1,7 @@
 ﻿using CodingChallenge.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace CodingChallenge.Api.Controllers
@@ -17,10 +18,13 @@ namespace CodingChallenge.Api.Controllers
 
         [HttpGet]
         [Route("api/progress")]
-        [ProducesResponseType(typeof(List<FloorProgress>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<FloorProgressResponse>), (int)HttpStatusCode.OK)]
         public IActionResult GetProgress()
         {
-            var result = _progressService.GetProgress();
+            var progress = _progressService.GetProgress();
+            var result = progress
+                             .Select(p => new FloorProgressResponse { Floor = p.Floor, StatusPercentage = p.StatusPercentage })
+                             .ToList();
             return Ok(result);
         }
     }
