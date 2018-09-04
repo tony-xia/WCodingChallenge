@@ -1,8 +1,11 @@
 ﻿using System.Reflection;
 using CodingChallenge.Api.Infrastructure;
+using CodingChallenge.Api.Models;
+using CodingChallenge.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -43,6 +46,14 @@ namespace CodingChallenge.Api
                     c.SwaggerDoc("v1", new Info { Title = Assembly.GetEntryAssembly().GetName().Name, Version = "1" });
                 });
             }
+
+            services.AddDbContext<BuildingDbContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("DemoDb");
+                options.UseSqlServer(connectionString);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+            services.AddScoped<IProgressService, ProgressService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
